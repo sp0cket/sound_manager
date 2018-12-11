@@ -15,8 +15,8 @@ class SoundManager {
   double get maxDb => audioPlayer.maxDB;
   Future<void> playLocal(String localFileName, void onDone()) async {
     final dir = await getApplicationDocumentsDirectory();
-    final file =  File('${dir.path}/${localFileName}.mp3').create(recursive: true).then((file) {
-      rootBundle.load('${localFileName}.mp3').then((soundData){
+    File('${dir.path}/$localFileName.mp3').create(recursive: true).then((file) {
+      rootBundle.load('$localFileName.mp3').then((soundData){
         final bytes = soundData.buffer.asUint8List();
         file.writeAsBytesSync(bytes, flush: true);
       });
@@ -44,7 +44,7 @@ enum SoundPlayerStatus {
 }
 
 const MethodChannel _channel =
-const MethodChannel('cn.sp0cket.flutter/audio');
+const MethodChannel('top.sp0cket.flutter/audio');
 class MusicPlayer {
   final StreamController<SoundPlayerStatus> _playerStateController =
   new StreamController.broadcast();

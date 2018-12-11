@@ -23,7 +23,7 @@ class SoundManagerPlugin private constructor(private val activity: Activity, pri
   private var maxDB = 0.0
 
   companion object {
-    private const val FLUTTER_CHANNEL = "top.sp0cket.sound_manager/image_classifier"
+    private const val FLUTTER_CHANNEL = "top.sp0cket.flutter/audio"
     @JvmStatic
     fun registerWith(registrar: Registrar) {
       val channel = MethodChannel(registrar.messenger(), FLUTTER_CHANNEL)
