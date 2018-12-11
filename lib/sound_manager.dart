@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/services.dart' show rootBundle;
+
 typedef void SoundCallBack();
 class SoundManager {
   static final SoundManager _soundManager = new SoundManager._internal();
@@ -14,16 +11,9 @@ class SoundManager {
   MusicPlayer audioPlayer = new MusicPlayer();
   double get maxDb => audioPlayer.maxDB;
   Future<void> playLocal(String localFileName, void onDone()) async {
-    final dir = await getApplicationDocumentsDirectory();
-    File('${dir.path}/$localFileName.mp3').create(recursive: true).then((file) {
-      rootBundle.load('$localFileName.mp3').then((soundData){
-        final bytes = soundData.buffer.asUint8List();
-        file.writeAsBytesSync(bytes, flush: true);
-      });
-      audioPlayer.play(file.path);
-      audioPlayer.onStop = onDone;
-      audioPlayer.onDone = onDone;
-    });
+    audioPlayer.play(localFileName);
+    audioPlayer.onStop = onDone;
+    audioPlayer.onDone = onDone;
   }
   Future<void> stop() async {
     audioPlayer.stop();
