@@ -21,8 +21,8 @@ public class SwiftSoundManagerPlugin: NSObject, FlutterPlugin {
         let instance = SwiftSoundManagerPlugin()
         SwiftSoundManagerPlugin.registrar = registrar
         registrar.addMethodCallDelegate(instance, channel: channel)
-        try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord,
-                                                         mode: AVAudioSessionModeSpokenAudio,
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playAndRecord,
+                                                         mode: AVAudioSession.Mode(rawValue: convertFromAVAudioSessionMode(AVAudioSession.Mode.spokenAudio)),
                                                          options: .defaultToSpeaker)
         try? AVAudioSession.sharedInstance().setActive(true)
     }
@@ -93,4 +93,9 @@ public class SwiftSoundManagerPlugin: NSObject, FlutterPlugin {
             result(FlutterMethodNotImplemented)
         }
     }
+}
+
+// Helper function inserted by Swift 4.2 migrator.
+fileprivate func convertFromAVAudioSessionMode(_ input: AVAudioSession.Mode) -> String {
+	return input.rawValue
 }
