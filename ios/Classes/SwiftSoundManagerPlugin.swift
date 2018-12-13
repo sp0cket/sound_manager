@@ -34,7 +34,8 @@ public class SwiftSoundManagerPlugin: NSObject, FlutterPlugin {
     }
     private func playSound(_ url: String) {
         let flutterURL = SwiftSoundManagerPlugin.registrar.lookupKey(forAsset: url)
-        let item = AVPlayerItem(url: URL(fileURLWithPath: handleChinese(string: flutterURL)))
+        let path = Bundle.main.path(forResource: handleChinese(string: flutterURL), ofType: nil)
+        let item = AVPlayerItem(url: URL(fileURLWithPath: path!))
         musicPlayer.replaceCurrentItem(with: item)
         musicPlayer.seek(to: CMTime(value: 0, timescale: 1))
         musicPlayer.play()
