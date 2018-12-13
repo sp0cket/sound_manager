@@ -26,6 +26,18 @@ public class SwiftSoundManagerPlugin: NSObject, FlutterPlugin {
                                                          options: .defaultToSpeaker)
         try? AVAudioSession.sharedInstance().setActive(true)
     }
+    public override init() {
+        super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(playerDidFinishPlaying(_:)), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: musicPlayer.currentItem)
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    @objc func playerDidFinishPlaying(_ noti: Notification) {
+        musicPlayer.pause()
+        musicPlayer.currentItem?.seek(to: CMTime(value: 0, timescale: 1))
+        SwiftSoundManagerPlugin.channel.invokeMethod("SPMusic.onComplete", arguments: nil)
+    }
     private func handleChinese(string: String) -> String {
         guard let encodedString = string.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
             return ""
@@ -43,6 +55,7 @@ public class SwiftSoundManagerPlugin: NSObject, FlutterPlugin {
     private func stopSound() {
         musicPlayer.pause()
         musicPlayer.currentItem?.seek(to: CMTime(value: 0, timescale: 1))
+        SwiftSoundManagerPlugin.channel.invokeMethod("SPMusic.onStop", arguments: maxDB)
     }
     @objc func levelTimerCallback(_ timer: Timer) {
         recorder.updateMeters()
