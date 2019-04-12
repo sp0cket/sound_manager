@@ -2,7 +2,7 @@ group 'top.sp0cket.soundmanager'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.2.71'
+    ext.kotlin_version = '1.3.30'
     repositories {
         google()
         jcenter()
